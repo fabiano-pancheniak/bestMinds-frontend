@@ -5,13 +5,13 @@ import { useNavigate } from 'react-router-dom';
 
 function App() {
   const [products, setProducts] = useState(null)
-  const [query, setQuery] = useState("")
+  const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
 
   // Use effect
   useEffect(() => {
     fetchNotes();
-  }, [setQuery])
+  }, [])
 
   const fetchNotes = async () => {
     // Fetch the notes
@@ -58,20 +58,24 @@ function App() {
     return navigate("/create-product") 
   }
 
-  const searchProduct = (e) => {
-    setQuery(e)
-    const filteredElements = products
-      .filter(product => product.name.includes(query) || product.code.includes(query) || product.description.includes(query))
-      console.log(filteredElements)
-  }
-    
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value);
+  };
+  
+  const filteredElements = products?.filter(product => 
+    product.name.includes(searchTerm) || 
+    product.code.includes(searchTerm) || 
+    product.description.includes(searchTerm)
+  )
+
   return (
     <div className="App">
       <div>
         <input
-          name="query"
-          value={query}
-          onChange={(e) => searchProduct(e.target.value)}
+          type="text"
+          placeholder="Search..."
+          value={searchTerm}
+          onChange={handleSearch}
         />
         <h2>Products:</h2>
         <button onClick={createProduct}> Novo Produto </button>
