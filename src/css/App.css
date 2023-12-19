@@ -1,0 +1,7 @@
+.products-table{
+    display: flex;
+}
+
+.products-table p{
+    margin: 0 2px;
+}
