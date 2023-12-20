@@ -26,8 +26,8 @@ function App() {
 
   const handleDelete = (_id) => {
     setShowModal(true)
-    setCurrentItem(_id)
-    console.log(currentItem)
+    const item = products.find((item) => item._id == _id)
+    setCurrentItem(item)
   }
 
   const deleteProduct = async (_id) => {
@@ -43,7 +43,7 @@ function App() {
   }
 
   const handleYes = () => {
-    deleteProduct(currentItem)
+    deleteProduct(currentItem._id)
     setCurrentItem(null)
     setShowModal(false)
   }
@@ -69,19 +69,9 @@ function App() {
     return navigate("/create-product") 
   }
 
-  const handleSearch = (e) => {
-    setSearchTerm(e.target.value);
-  };
-  
-  const filteredElements = products?.filter(product => 
-    product.name.includes(searchTerm) || 
-    product.code.includes(searchTerm) || 
-    product.description.includes(searchTerm)
-  )
-
   return (
     <div className="App">
-      <div className='products-wrapper'>
+      <div className={showModal ? 'products-wrapper modal-open' : 'products-wrapper'}>
         <div className='header'>
           <h2>Produtos</h2>
           <button className='new-product-btn' onClick={createProduct}> Novo produto </button>
@@ -95,9 +85,11 @@ function App() {
         {productsList}
       </div>
       <div className={showModal ? "modal" : "hidden"}>
-        Excluir produto?
-        <button onClick={handleNo}>Não</button>
-        <button onClick={handleYes}>Sim</button>
+        <div>Excluir {currentItem?.name}?</div>
+        <div className='modal-buttons'>
+          <button className='delete-btn modal-btn' onClick={handleNo}>Não</button>
+          <button className='new-product-btn modal-btn' onClick={handleYes}>Sim</button>
+        </div>
       </div>
     </div>
   );
