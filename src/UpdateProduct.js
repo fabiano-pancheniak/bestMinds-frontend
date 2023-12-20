@@ -1,12 +1,14 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 export default function UpdateProduct(){
     const [code, setCode] = useState("");
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
     const [price, setPrice] = useState("");
+    const [error, setError] = useState(false)
+    const [success, setSuccess] = useState(false)
 
     const params = useParams()
 
@@ -26,40 +28,78 @@ export default function UpdateProduct(){
     
     const updateProduct = async (e) => {
         e.preventDefault();
-        await axios.patch(`http://localhost:3000/api/products/${params.id}`, {
+        if(!code || !name || !description || !price){
+            setError(true)
+            return
+        }
+
+        setError(false)
+
+        const res = await axios.patch(`http://localhost:3000/api/products/${params.id}`, {
             code: code,
             name: name,
             description: description,
             price: price
         });
+
+        if(res.status == 201){
+            setSuccess(true)
+        }
+
+        setTimeout(() => {
+            setSuccess(false)
+          }, "3000");
       };
 
 
       return(
-        <div>
-            <h2>Update Product</h2>
-            <form onSubmit={updateProduct}>
-            <input
-                name="code"
-                value={code}
-                onChange={(e) => setCode(e.target.value)}
-            />
-            <input
-                name="name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-            />
-            <input
-                name="description"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-            />
-            <input
-                name="price"
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
-            />
-            <button type="submit">Update product</button>
+        <div className="novo-produto-container">
+            <Link to="/" className="link-home">Página inicial</Link>
+            <form onSubmit={updateProduct} className="novo-produto-form">
+            <label>
+                Código:
+                <br/>
+                <input
+                    className={code.length == 0 && error ? "error" : ""}
+                    name="code"
+                    value={code}
+                    onChange={(e) => setCode(e.target.value)}
+                    />
+            </label>
+            <label>
+                Nome:
+                <br/>
+                <input
+                    className={name.length == 0 && error ? "error" : ""}
+                    name="name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    />
+            </label>
+            <label>
+                Descrição:
+                <br/>
+                <textarea
+                    className={description.length == 0 && error ? "error" : ""}
+                    name="description"
+                    rows={5}
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    />
+            </label>
+            <label>
+                Preço:
+                <br/>
+                <input
+                    type="number"
+                    className={price.length == 0 && error ? "error" : ""}
+                    name="price"
+                    value={price}
+                    onChange={(e) => setPrice(e.target.value)}
+                />
+            </label>
+            <button type="submit" className="novo-produto-btn">Alterar produto</button>
+            <span className={success ? "success-message" : "hidden"}>Produto alterado com sucesso</span>
             </form>
         </div>
     )

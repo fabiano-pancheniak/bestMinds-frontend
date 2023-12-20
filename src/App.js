@@ -14,41 +14,38 @@ function App() {
   }, [])
 
   const fetchNotes = async () => {
-    // Fetch the notes
     const res = await axios.get("http://localhost:3000/api/products")
-    // Set to state
     setProducts(res.data.products)
-
   }
 
   const updateProduct = async (_id) => {
     return navigate(`/update-product/${_id}`) 
   }
 
-  const deleteProduct = async (_id) => {
-    // Delete the note
-    const res = await axios.delete(`http://localhost:3000/api/products/${_id}`);
+  
 
-    // Update state
+  const deleteProduct = async (_id) => {
+    /*
+    const res = await axios.delete(`http://localhost:3000/api/products/${_id}`);
     const newProducts = [...products].filter((product) => {
       return product._id !== _id;
     })
-
     setProducts(newProducts);
+    */
   }
-
+  
   const productsList = products ? products.map(product =>{
     return(
       <div key={product._id} className='products-table'>
         <p>{product.code}</p>
         <p>{product.name}</p>
-        <p>{product.description}</p>
+        <p className='description'>{product.description}</p>
         <p>{product.price}</p>
-        <button onClick={() => updateProduct(product._id)}>
-          Update product
+        <button className='action-btn edit-btn' onClick={() => updateProduct(product._id)}>
+          Editar
         </button>
-        <button onClick={() => deleteProduct(product._id)}>
-          Delete product
+        <button id={product._id} className='action-btn delete-btn' onClick={() => deleteProduct(product._id)}>
+          Remover
         </button>
       </div>
     )
@@ -70,15 +67,17 @@ function App() {
 
   return (
     <div className="App">
-      <div>
-        <input
-          type="text"
-          placeholder="Search..."
-          value={searchTerm}
-          onChange={handleSearch}
-        />
-        <h2>Products:</h2>
-        <button onClick={createProduct}> Novo Produto </button>
+      <div className='products-wrapper'>
+        <div className='header'>
+          <h2>Produtos</h2>
+          <button className='new-product-btn' onClick={createProduct}> Novo produto </button>
+        </div>
+        <div className='products-table-header'>
+        <p><strong>Código</strong></p>
+        <p><strong>Nome</strong></p>
+        <p><strong>Descrição</strong></p>
+        <p><strong>Preço</strong></p>
+        </div>
         {productsList}
       </div>
     </div>
