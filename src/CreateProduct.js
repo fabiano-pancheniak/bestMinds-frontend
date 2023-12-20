@@ -10,7 +10,8 @@ export default function CreateProduct(){
     const [price, setPrice] = useState("");
     const [error, setError] = useState(false)
     const [success, setSuccess] = useState(false)
-    
+    const URL = "https://products-api-3lvc.onrender.com"
+
     const createProduct = async (e) => {
         e.preventDefault();
         if(!code || !name || !description || !price){
@@ -19,7 +20,7 @@ export default function CreateProduct(){
         }
 
         setError(false)
-        const res = await axios.post("http://localhost:3000/api/products", {
+        const res = await axios.post(`${URL}/api/products`, {
             code: code,
             name: name,
             description: description,

@@ -9,6 +9,7 @@ export default function UpdateProduct(){
     const [price, setPrice] = useState("");
     const [error, setError] = useState(false)
     const [success, setSuccess] = useState(false)
+    const URL = "https://products-api-3lvc.onrender.com"
 
     const params = useParams()
 
@@ -18,7 +19,7 @@ export default function UpdateProduct(){
     
     
     const findProduct = async () => {
-        const res = await axios.get(`http://localhost:3000/api/products/${params.id}`)
+        const res = await axios.get(`${URL}/api/products/${params.id}`)
         const { code, name, description, price } = res.data.product
         setCode(code)
         setName(name)
@@ -35,7 +36,7 @@ export default function UpdateProduct(){
 
         setError(false)
 
-        const res = await axios.patch(`http://localhost:3000/api/products/${params.id}`, {
+        const res = await axios.patch(`${URL}/api/products/${params.id}`, {
             code: code,
             name: name,
             description: description,

@@ -5,10 +5,11 @@ import { useNavigate } from 'react-router-dom';
 
 function App() {
   const [products, setProducts] = useState(null)
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState('')
   const [showModal, setShowModal] = useState(false)
   const [currentItem, setCurrentItem] = useState(null)
   const navigate = useNavigate();
+  const URL = "https://products-api-3lvc.onrender.com"
 
   // Use effect
   useEffect(() => {
@@ -16,7 +17,7 @@ function App() {
   }, [])
 
   const fetchNotes = async () => {
-    const res = await axios.get("http://localhost:3000/api/products")
+    const res = await axios.get(`${URL}/api/products`)
     setProducts(res.data.products)
   }
 
@@ -31,7 +32,7 @@ function App() {
   }
 
   const deleteProduct = async (_id) => {
-    const res = await axios.delete(`http://localhost:3000/api/products/${_id}`);
+    const res = await axios.delete(`${URL}/api/products/${_id}`);
     const newProducts = [...products].filter((product) => {
       return product._id !== _id;
     })
