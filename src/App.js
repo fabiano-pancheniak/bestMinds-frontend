@@ -1,5 +1,6 @@
 import './css/App.css';
-import { useState, useEffect } from "react";
+import { useState, useEffect, CSSProperties } from "react";
+import MoonLoader from "react-spinners/MoonLoader";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 
@@ -8,16 +9,19 @@ function App() {
   const [searchTerm, setSearchTerm] = useState('')
   const [showModal, setShowModal] = useState(false)
   const [currentItem, setCurrentItem] = useState(null)
+  const [isLoaded, setIsLoaded] = useState(false)
   const navigate = useNavigate();
   const URL = "https://products-api-3lvc.onrender.com"
 
   useEffect(() => {
     fetchNotes();
   }, [])
-
+  
   const fetchNotes = async () => {
+    setIsLoaded(true)
     const res = await axios.get(`${URL}/api/products`)
     setProducts(res.data.products)
+    setIsLoaded(false)
   }
 
   const updateProduct = async (_id) => {
@@ -74,16 +78,26 @@ function App() {
       <div className={showModal ? 'products-wrapper modal-open' : 'products-wrapper'}>
         <div className='header'>
           <button className='new-product-btn' onClick={createProduct}> Novo produto </button>
+        </div>{
+          isLoaded ? 
+          <div className='center-loader'>
+            <MoonLoader
+            size={30}
+            aria-label="Loading Spinner"
+            data-testid="loader"
+            /> 
+          </div>
+          :
+          <div className='products-table-header'>
+            <p><strong>Código</strong></p>
+            <p><strong>Nome</strong></p>
+            <p><strong>Descrição</strong></p>
+            <p><strong>Preço</strong></p>
+          </div>
+      }
+      {isLoaded ? '' : productsList }
         </div>
-        <div className='products-table-header'>
-        <p><strong>Código</strong></p>
-        <p><strong>Nome</strong></p>
-        <p><strong>Descrição</strong></p>
-        <p><strong>Preço</strong></p>
-        </div>
-        {productsList}
-      </div>
-      <div className={showModal ? "modal" : "hidden"}>
+        <div className={showModal ? "modal" : "hidden"}>
         <div>Excluir {currentItem?.name}?</div>
         <div className='modal-buttons'>
           <button className='delete-btn modal-btn' onClick={handleNo}>Não</button>

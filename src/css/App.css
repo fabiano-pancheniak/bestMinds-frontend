@@ -33,7 +33,7 @@
 }
 
 .products-wrapper{
-    max-width: 1250px;
+    width: 950px;
     min-width: 650px;
     background-color: white;
     border-radius: 6px;
@@ -142,7 +142,15 @@
     letter-spacing: normal;
 }
 
+.center-loader{
+    width: fit-content;
+    margin: auto;
+}
+
 @media (max-width: 600px) {
+    .products-wrapper{
+        width: 100%;
+    }
     .header{
         justify-content: flex-start;
     }
