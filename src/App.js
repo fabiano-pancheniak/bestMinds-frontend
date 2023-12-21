@@ -11,7 +11,6 @@ function App() {
   const navigate = useNavigate();
   const URL = "https://products-api-3lvc.onrender.com"
 
-  // Use effect
   useEffect(() => {
     fetchNotes();
   }, [])
@@ -74,7 +73,6 @@ function App() {
     <div className="App">
       <div className={showModal ? 'products-wrapper modal-open' : 'products-wrapper'}>
         <div className='header'>
-          <h2>Produtos</h2>
           <button className='new-product-btn' onClick={createProduct}> Novo produto </button>
         </div>
         <div className='products-table-header'>

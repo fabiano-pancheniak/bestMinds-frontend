@@ -1,7 +1,7 @@
 .App{
-    display: flex;
-    justify-content: center;
+    margin: auto;
     padding: 16px;
+    width: fit-content;
 }
 
 .modal-open{
@@ -11,7 +11,7 @@
 
 .header{
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     padding: 8px 0;
 }
 
@@ -34,6 +34,7 @@
 
 .products-wrapper{
     max-width: 1250px;
+    min-width: 650px;
     background-color: white;
     border-radius: 6px;
     padding: 16px;
@@ -140,4 +141,10 @@
     font-size: 1rem;
     letter-spacing: normal;
 }
+
+@media (max-width: 600px) {
+    .header{
+        justify-content: flex-start;
+    }
+  }
 

@@ -59,3 +59,9 @@ label{
 .hidden{
     display: none;
 }
+
+@media (max-width: 500px){
+    .novo-produto-form{
+        width: 90%;
+    }
+}
